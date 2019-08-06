@@ -1,14 +1,11 @@
 package cn.cwj.traning.birthday.schedule;
 
 import cn.cwj.traning.birthday.exception.FileReadException;
-import cn.cwj.traning.birthday.model.Email;
 import cn.cwj.traning.birthday.model.Employee;
+import cn.cwj.traning.birthday.util.EmailSendUtil;
 import com.google.common.io.Files;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,21 +16,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Component
-public class SendBirthdayGreetingEmail {
+public class BirthdayGreetingsTask {
 
     private final DateTimeFormatter birthdayPattern = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private final String infoSeparator = ", ";
-    private final String emailSubject = "Happy birthday!";
-    private final String emailContent = "Happy birthday, dear ";
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0 * * ?")
     public void checkBirthdayAndSendEmail() {
         List<String> lineData = readFile("employee.txt");
         List<Employee> sendGreetingsList = getSendGreetingsList(lineData);
 
-        sendEmail(sendGreetingsList);
+        EmailSendUtil.sendEmail(sendGreetingsList);
     }
 
     private List<String> readFile(String filePath) {
@@ -82,14 +74,4 @@ public class SendBirthdayGreetingEmail {
         return employee;
     }
 
-    private void sendEmail(List<Employee> sendGreetingsList) {
-        List<Email> emails = new ArrayList<>();
-        sendGreetingsList.forEach(employee -> {
-            String emailBody = emailContent + employee.getLastName();
-            Email email = new Email(emailSubject, emailBody);
-            emails.add(email);
-        });
-
-        System.out.println(emails);
-    }
 }
