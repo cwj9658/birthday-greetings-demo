@@ -2,8 +2,6 @@ plugins {
     id 'war'
 }
 
-apply plugin: 'io.spring.dependency-management'
-
 group = 'cn.cwj.traning'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -14,6 +12,7 @@ repositories {
 
 dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '28.0-jre'
+    testCompile 'junit:junit:4.12'
 }
 
 apply from: 'checkstyle.gradle'

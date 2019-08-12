@@ -4,7 +4,6 @@ import cn.cwj.traning.birthday.exception.FileReadException;
 import cn.cwj.traning.birthday.model.Employee;
 import cn.cwj.traning.birthday.util.EmailSendUtil;
 import com.google.common.io.Files;
-import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class BirthdayGreetingsTask {
 
@@ -38,7 +38,7 @@ public class BirthdayGreetingsTask {
     }
 
     private List<Employee> getSendGreetingsList(List<String> lineData) {
-        if (CollectionUtils.isEmpty(lineData)) {
+        if (Objects.isNull(lineData)) {
             return Collections.emptyList();
         }
 
